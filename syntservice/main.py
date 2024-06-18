@@ -8,7 +8,10 @@ from futuracommon.protos import tts_pb2_grpc
 import sounddevice
 
 def consume(addr, session_id = "1"):
-    channel = grpc.insecure_channel(addr)
+    channel = grpc.insecure_channel(addr,
+                                    options=[
+        ('grpc.max_receive_message_length', 30*24000*8),
+    ],)
     stub = tts_pb2_grpc.TextToSpeechStub(channel)
     
     print("Start consuming...")
